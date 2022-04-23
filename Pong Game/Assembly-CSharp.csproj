@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\BallControl.cs" />
     <Compile Include="Assets\Scripts\BrickBehaviour.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\PongPaddleControl.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/job hunting/Test/Project/GamePong/Pong Game/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

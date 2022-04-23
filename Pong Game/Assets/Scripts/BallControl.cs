@@ -8,45 +8,37 @@ public class BallControl : MonoBehaviour
 
     void Start()
     {
+        
+    }
+
+    
+    public void StartBall()
+    {
         // Initial Velocity
-        GetComponent<Rigidbody2D>().velocity =new Vector2(-1,-1f) * speed;
+        GetComponent<Rigidbody2D>().velocity = new Vector2(-1, -1f) * speed;
     }
 
-    // Update is called once per frame
-    void Update()
+    float bounceCalulate(Vector2 ballPosition, Vector2 paddlePosition, float paddleHeight)
     {
-
-    }
-
-    float hitFactor(Vector2 ballPos, Vector2 racketPos,
-                float racketHeight)
-    {
-        // ascii art:
-        // ||  1 <- at the top of the racket
-        // ||
-        // ||  0 <- at the middle of the racket
-        // ||
-        // || -1 <- at the bottom of the racket
-        return (ballPos.y - racketPos.y) / racketHeight;
+        //x=1 if in the ball position is on the right of paddle
+        //x=-1 if in the ball position is on the left of paddle
+        //x=0 if in the ball position is on the middle of paddle
+        return (ballPosition.x - paddlePosition.x) / paddleHeight;
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        // Note: 'col' holds the collision information. If the
-        // Ball collided with a racket, then:
-        //   col.gameObject is the racket
-        //   col.transform.position is the racket's position
-        //   col.collider is the racket's collider
+
 
         // Hit the Paddle
         if (col.gameObject.tag == "Player")
         {
-            // Calculate hit Factor
-            float x = hitFactor(transform.position,
+            // Calculate bouncing position
+            float x = bounceCalulate(transform.position,
                                 col.transform.position,
                                 col.collider.bounds.size.x);
 
-            // Calculate direction, make length=1 via .normalized
+            // Calculate direction, the Y position is always going up
             Vector2 dir = new Vector2(x, 1).normalized;
 
             // Set Velocity with dir * speed
@@ -56,12 +48,12 @@ public class BallControl : MonoBehaviour
         // Hit the 
         if (col.gameObject.tag == "Bricks")
         {
-            // Calculate hit Factor
-            float x = hitFactor(transform.position,
+            // Calculate bouncing position
+            float x = bounceCalulate(transform.position,
                                 col.transform.position,
                                 col.collider.bounds.size.x);
 
-            // Calculate direction, make length=1 via .normalized
+            // Calculate direction, the Y position is always going down
             Vector2 dir = new Vector2(x, -1).normalized;
 
             // Set Velocity with dir * speed
@@ -70,6 +62,13 @@ public class BallControl : MonoBehaviour
             //check if the brick should be destroyed
             col.gameObject.GetComponent<BrickBehaviour>().BrickCheck();
 
+        }
+
+        //hit the abyss
+        if (col.gameObject.tag == "Abyss")
+        {
+            //decrease health
+            GameManager.FindObjectOfType<GameManager>().DecreaseHealth();
         }
     }
 
