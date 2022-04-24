@@ -62,6 +62,9 @@ public class BallControl : MonoBehaviour
             //check if the brick should be destroyed
             col.gameObject.GetComponent<BrickBehaviour>().BrickCheck();
 
+            //check wheter the game is finished.
+            GameManager.FindObjectOfType<GameManager>().CheckGame();
+
         }
 
         //hit the abyss

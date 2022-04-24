@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     //waiting time before start the game
     public float waitForStartTime = 2f;
 
+    //initial bricks
+    private int brickcount = 10;
+
     //initial lives
     public int lives = 3;
     
@@ -18,6 +21,9 @@ public class GameManager : MonoBehaviour
 
     //healthBar for health UI
     public Image[] healthBar;
+
+    //Pop up for Game Complete
+    public GameObject gameCompletePopUp;
 
     //Pop up for Game Over
     public GameObject gameOverPopUp;
@@ -29,10 +35,16 @@ public class GameManager : MonoBehaviour
         StartCoroutine(StartGame());
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CheckGame()
     {
-        
+        GameObject [] bricks = GameObject.FindGameObjectsWithTag("Bricks");
+
+
+        if(bricks.Length-1 == 0)
+        {
+            Time.timeScale = 0;
+            gameCompletePopUp.SetActive(true);
+        }
     }
 
     public void DecreaseHealth()
