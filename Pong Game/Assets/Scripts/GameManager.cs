@@ -49,6 +49,9 @@ public class GameManager : MonoBehaviour
     //Pop up for Tutorial
     public GameObject tutorialPopUp;
 
+    //Pop up for Paused Game
+    public GameObject pauseGamePopUp;
+
     public bool gameStarted = false;
     
     
@@ -76,7 +79,14 @@ public class GameManager : MonoBehaviour
         {
             tutorialPopUp.SetActive(false);
             StartGame();
-        }   
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
+        }
+
+
     }
 
     void GameSetup()
@@ -201,6 +211,17 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+        pauseGamePopUp.SetActive(true);
+    }
+
+    public void ResumeGame()
+    {
+        pauseGamePopUp.SetActive(false);
+        Time.timeScale = 1;
+    }
 
     void StartGame()
     {
