@@ -164,6 +164,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0;
             gameCompletePopUp.SetActive(true);
+            GameObject.FindObjectOfType<AudioManager>().CompletedEffect();
 
             if (GameData.gameLevel < 9)
             {
@@ -187,6 +188,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0;
             gameOverPopUp.SetActive(true);
+            GameObject.FindObjectOfType<AudioManager>().CompletedEffect();
         }
     }
     
