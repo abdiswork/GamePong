@@ -8,6 +8,7 @@ public class PongPaddleControl : MonoBehaviour
     public float speed = 10.0f;
     private Rigidbody2D rb2d;
 
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,11 @@ public class PongPaddleControl : MonoBehaviour
     //check touch
     void TouchMove()
     {
+        //do not allow to move if game is not started yet
+        GameManager GM = GameObject.FindObjectOfType<GameManager>();
+        if (!GM.gameStarted)
+            return;
+
         //if user touches the screen
         if (Input.GetMouseButtonDown(0))
         {
@@ -74,4 +80,5 @@ public class PongPaddleControl : MonoBehaviour
         }
 
     }
+
 }

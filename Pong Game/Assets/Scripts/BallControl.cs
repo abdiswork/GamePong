@@ -11,6 +11,13 @@ public class BallControl : MonoBehaviour
     //ball immune state
     private bool isImmune = false;
 
+    AudioManager audioManager;
+
+    void Start()
+    {
+        audioManager = GameObject.FindObjectOfType<AudioManager>();
+    }
+
     
     public void StartBall()
     {
@@ -37,7 +44,6 @@ public class BallControl : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
 
-
         // Hit the Paddle
         if (col.gameObject.tag == "Player")
         {
@@ -51,6 +57,8 @@ public class BallControl : MonoBehaviour
 
             // Set Velocity with dir * speed
             GetComponent<Rigidbody2D>().velocity = dir * speed;
+
+            audioManager.HitEffect();
         }
 
         // Hit the 
@@ -73,6 +81,7 @@ public class BallControl : MonoBehaviour
             //check wheter the game is finished.
             GameManager.FindObjectOfType<GameManager>().CheckGame();
 
+            audioManager.HitEffect();
         }
 
         //hit the abyss
@@ -83,6 +92,8 @@ public class BallControl : MonoBehaviour
                 return;
             //decrease health
             GameManager.FindObjectOfType<GameManager>().DecreaseHealth();
+
+            audioManager.abyssEffect();
         }
 
     }
@@ -98,6 +109,7 @@ public class BallControl : MonoBehaviour
             isImmune = true;
             StartCoroutine(ImmuneStop());
 
+            audioManager.powerUpEffect();
         }
     }
 

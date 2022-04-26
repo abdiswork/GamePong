@@ -46,16 +46,37 @@ public class GameManager : MonoBehaviour
     //Pop up for Game Over
     public GameObject gameOverPopUp;
 
-    bool gameStarted = false;
+    //Pop up for Tutorial
+    public GameObject tutorialPopUp;
+
+    public bool gameStarted = false;
     
     
     // Start is called before the first frame update
     void Start()
     {
-        //setup of the game level
         
-        //start the game
-        StartCoroutine(StartGame());
+
+        //show tutorial for the first user
+        int firstPlayer = PlayerPrefs.GetInt("firstPlayer",1);
+        //check if they are first player
+        if (firstPlayer == 1)
+        {
+            tutorialPopUp.SetActive(true);
+            PlayerPrefs.SetInt("firstPlayer", 0);
+        }
+
+        GameSetup();
+    }
+
+    void Update()
+    {
+        //start the game if touched
+        if (Input.GetMouseButtonDown(0) && !gameStarted)
+        {
+            tutorialPopUp.SetActive(false);
+            StartGame();
+        }   
     }
 
     void GameSetup()
@@ -174,25 +195,28 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        StartCoroutine(StartGame());
+        StartGame();
         
     }
 
 
-    IEnumerator StartGame()
+    void StartGame()
     {
-        gameStarted = true;
-
-        GameSetup();
+        
 
         Time.timeScale = 1;
 
-        //gives 2 seconds break. Break for a moment before start the game to make the user ready
-        yield return new WaitForSeconds(waitForStartTime);
+        StartCoroutine(MoveBallAfter());
+    }
 
+    IEnumerator MoveBallAfter()
+    {
+        //wait for 2 seconds
+        yield return new WaitForSeconds(1f);
+        //enable game
+        gameStarted = true;
+        //start ball movement
         GameObject.FindObjectOfType<BallControl>().StartBall();
-
-        
     }
 
     IEnumerator SpawnPowerUp()

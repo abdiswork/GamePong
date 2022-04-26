@@ -9,10 +9,8 @@ public class LevelManagement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //get level information
         int level = PlayerPrefs.GetInt("Level", 1);
-
-        GameData.gameLevel = level;
 
         for(int i = 0; i < level; i++)
         {
@@ -22,8 +20,9 @@ public class LevelManagement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void LoadLevel(int level)
     {
-        
+        GameData.gameLevel = level;
+
     }
 }
