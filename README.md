@@ -9,11 +9,14 @@ public static int[] specialObstacle = {0, 1, 2, 3, 4, 5, 6, 7, 9}; //spawn speci
 public static int[] PowerUpsTime = {25, 25, 25, 25, 20, 20, 20, 15, 10}; //gives power up spawn for x time
 
 This game includes : 
+
 ● Unity Physics engine usage
 ● Basic scene setup
 ● Basic level design with at least over 10 bricks laid out
 
+
 Game Overview :
+
 ● The objective of any level of the game is to remove all bricks from the view without
 losing all lives, by controlling the constantly bouncing ball.
 ● From level start, the ball is in perpetual motion, constantly bouncing off the walls.
