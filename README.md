@@ -29,3 +29,10 @@ Game Overview :
 
 Preview of the game can be seen at this folder or this link:
 https://github.com/abdiswork/GamePong/blob/main/pongtrailervideo.mp4
+
+Tested by following devices to ensure compatibility and quality:
+- Samsung A50s (Android 11)
+- Samsung A20 (Android 11)
+- Vivo V20se (Android 12)
+- Samsung A30S (Android 11)
+

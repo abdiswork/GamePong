@@ -248,10 +248,15 @@ public class GameManager : MonoBehaviour
     {
         //wait for 2 seconds
         yield return new WaitForSeconds(1f);
-        //enable game
-        gameStarted = true;
-        //start ball movement
-        GameObject.FindObjectOfType<BallControl>().StartBall();
+
+        if (!gameStarted)
+        {
+            //enable game
+            gameStarted = true;
+            //start ball movement
+            GameObject.FindObjectOfType<BallControl>().StartBall();
+        }
+
     }
 
     IEnumerator SpawnPowerUp()
