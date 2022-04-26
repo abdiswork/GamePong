@@ -7,7 +7,7 @@ public class GameData : MonoBehaviour
     public static int[] paddleSpeed = { 8, 8, 8, 7, 7, 7, 6, 6, 6};//set paddle speed
     public static int[] obstacleNumbers = { 10, 10, 10, 12, 12, 14, 15, 16, 17}; //number of obstacle spawn
     public static int[] specialObstacle = {0, 1, 2, 3, 4, 5, 6, 7, 9}; //spawn special obstacle in x time
-    public static int[] PowerUpsTime = {25, 25, 30, 35, 40, 45, 50, 55, 60}; //gives power up spawn for every x time
+    public static int[] PowerUpsTime = {25, 25, 25, 25, 20, 20, 20, 15, 10}; //gives power up spawn for every x time
 
     public static int gameLevel=1; //game level
 }

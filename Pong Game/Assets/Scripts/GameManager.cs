@@ -53,7 +53,8 @@ public class GameManager : MonoBehaviour
     public GameObject pauseGamePopUp;
 
     public bool gameStarted = false;
-    
+
+    bool gameStop = false;
     
     // Start is called before the first frame update
     void Start()
@@ -81,11 +82,10 @@ public class GameManager : MonoBehaviour
             StartGame();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameStop)
         {
             PauseGame();
         }
-
 
     }
 
@@ -169,13 +169,22 @@ public class GameManager : MonoBehaviour
     {
         GameObject [] bricks = GameObject.FindGameObjectsWithTag("Bricks");
 
-
+        //if all breaks already broken 
         if(bricks.Length-1 == 0)
         {
+            //game is stop
+            gameStop = true;
+
+            //pause game
             Time.timeScale = 0;
+
+            //show popup complete
             gameCompletePopUp.SetActive(true);
+
+            //sound effect
             GameObject.FindObjectOfType<AudioManager>().CompletedEffect();
 
+            //unlock new level
             if (GameData.gameLevel < 9)
             {
                 GameData.gameLevel++;
@@ -196,6 +205,9 @@ public class GameManager : MonoBehaviour
         //check if lives equal to 0, or lives are exhausted
         if (lives==0)
         {
+            // game is stop
+            gameStop = true;
+
             Time.timeScale = 0;
             gameOverPopUp.SetActive(true);
             GameObject.FindObjectOfType<AudioManager>().CompletedEffect();
@@ -225,7 +237,7 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        
+        gameStop = false;
 
         Time.timeScale = 1;
 
