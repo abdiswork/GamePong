@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    //Shield Power Up
+    public GameObject shieldPowerUp;
+
     //bricks
     public GameObject bricksGroup;
     public GameObject bricksPrefab;
@@ -42,13 +45,15 @@ public class GameManager : MonoBehaviour
 
     //Pop up for Game Over
     public GameObject gameOverPopUp;
+
+    bool gameStarted = false;
     
     
     // Start is called before the first frame update
     void Start()
     {
         //setup of the game level
-        GameSetup();
+        
         //start the game
         StartCoroutine(StartGame());
     }
@@ -72,15 +77,17 @@ public class GameManager : MonoBehaviour
         //setup Game Level Text
         levelInfo.text = "Level " + GameData.gameLevel;
 
+        //start spawn the power up
+        StartCoroutine(SpawnPowerUp());
         
     }
 
 
     List<GameObject> SpawnBricks(int bricksNumber)
     {
-        //inital position x = -2.38 and y = 1 
-        //add x by +1.2 for the next position; and decreasing x by 0.65 for the next position
-        float xPosition = -2.38f;
+        //inital position x = -1.97 and y = 1 
+        //add x by +1 for the next position; and decreasing x by 0.65 for the next position
+        float xPosition = -1.97f;
         float yPosition = 1f;
 
         //generate list for spawned game object
@@ -93,13 +100,13 @@ public class GameManager : MonoBehaviour
             spawnedObjects.Add(Instantiate(bricksPrefab, new Vector3(xPosition, yPosition, 0), Quaternion.identity, bricksGroup.transform) as GameObject);
 
 
-            xPosition += 1.2f;
+            xPosition += 1f;
 
             //calculate the brick is already 5
             if (i % 5 == 0)
             {
                 //move to start position of x
-                xPosition = -2.38f;
+                xPosition = -1.97f;
                 //move to the next y position
                 yPosition -= 0.65f;
 
@@ -168,19 +175,43 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         StartCoroutine(StartGame());
-        Time.timeScale = 1;
+        
     }
 
 
     IEnumerator StartGame()
     {
-       
+        gameStarted = true;
+
+        GameSetup();
+
+        Time.timeScale = 1;
+
         //gives 2 seconds break. Break for a moment before start the game to make the user ready
         yield return new WaitForSeconds(waitForStartTime);
 
         GameObject.FindObjectOfType<BallControl>().StartBall();
 
         
+    }
+
+    IEnumerator SpawnPowerUp()
+    {
+        //wait for 10 second before first start of power up
+        yield return new WaitForSeconds(10f);
+
+        while (gameStarted)
+        {
+            //delay the spawn based on game setup
+            yield return new WaitForSeconds(GameData.PowerUpsTime[GameData.gameLevel-1]);
+            
+            //random position
+            shieldPowerUp.transform.position = new Vector2(Random.Range(-2.7f, 2.7f), Random.Range(-1.6f, -3.8f));
+
+            //set the object to active
+            shieldPowerUp.SetActive(true);
+        }
+
     }
 
 }

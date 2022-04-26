@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BallControl : MonoBehaviour
 {
+    public blinkPulse blinkEffect;
+    //ball speed
     public float speed = 30;
 
-    void Start()
-    {
-        
-    }
+    //ball immune state
+    private bool isImmune = false;
 
     
     public void StartBall()
@@ -24,6 +24,14 @@ public class BallControl : MonoBehaviour
         //x=-1 if in the ball position is on the left of paddle
         //x=0 if in the ball position is on the middle of paddle
         return (ballPosition.x - paddlePosition.x) / paddleHeight;
+    }
+
+    IEnumerator ImmuneStop()
+    {
+        blinkEffect.enabled = true;
+        yield return new WaitForSeconds(10f);
+        isImmune = false;
+        blinkEffect.enabled = false;
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -70,8 +78,26 @@ public class BallControl : MonoBehaviour
         //hit the abyss
         if (col.gameObject.tag == "Abyss")
         {
+            //ignore if it is immune
+            if (isImmune)
+                return;
             //decrease health
             GameManager.FindObjectOfType<GameManager>().DecreaseHealth();
+        }
+
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "PowerUp")
+        {
+            //set the shield to inactive
+            col.gameObject.SetActive(false);
+
+            //set ball immune for 10 seconds
+            isImmune = true;
+            StartCoroutine(ImmuneStop());
+
         }
     }
 
